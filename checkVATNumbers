@@ -1,0 +1,36 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  // Create a custom menu in the Google Sheet
+  ui.createMenu('VIES')
+      .addItem('Check VAT Numbers', 'checkVATNumbers')
+      .addToUi();
+}
+
+function checkVATNumbers() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getRange("A:B").getValues();  // Only look at columns A (country code) and B (VAT number)
+  
+  // Embed the VATChecker function inside
+  function VATChecker(vat, country = "NL") {
+    const url = `https://ec.europa.eu/taxation_customs/vies/rest-api/ms/${country}/vat/${vat}`;
+    const fetchRequest = UrlFetchApp.fetch(url);
+    const result = JSON.parse(fetchRequest.getContentText());
+    return (result.isValid) ? "VALID" : "NOT VALID";
+  }
+
+  for(var i = 1; i < data.length; i++) {
+    var country = data[i][0];
+    var vat = data[i][1];
+
+    // If both country and vat are empty, stop the script
+    if (!country && !vat) break;
+    
+    try {
+      var isValid = VATChecker(vat, country);
+      sheet.getRange(i + 1, 3).setValue(isValid);
+    } catch (error) {
+      // Uncomment the following line to see error messages in column D:
+      // sheet.getRange(i + 1, 4).setValue(error.message);
+    }
+  }
+}
