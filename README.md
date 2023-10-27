@@ -9,12 +9,12 @@ This script is intended for use within a Google Spreadsheet to validate VAT numb
 
 
 ## Setup
-Clone this repository:
-bash
-Copy code
-git clone https://github.com/Pureness7542/VAT-vies-checker.git
-Open Google Sheets:
+**Clone this repository:**
 
+> git clone https://github.com/Pureness7542/VAT-vies-checker.git
+
+
+**Open Google Sheets:**
 Create a new Google Sheet or open an existing one.
 Go to Extensions > Apps Script, delete any code in the script editor, and paste the code from checkVATNumbers.gs in this repository.
 Run the Script:
@@ -38,5 +38,5 @@ The script will process the VAT numbers entered in columns A and B of your Googl
 Contributions are welcome! Please feel free to submit a Pull Request or create an issue if you find any bugs or have suggestions to improve the script.
 
 
-License
+**License**
 This project is licensed under the MIT License - see the LICENSE file for details.
